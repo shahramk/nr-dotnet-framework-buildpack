@@ -1,8 +1,8 @@
-# HWC Buildpack for New Relic Agent
+# HWC Buildpack modified with New Relic Agent Install
 This buildpack modified the hwc_buildpack to add instructions to download and install New Relic agent.
 
 ## How to Install the Buildpack
-* Open nr-hwc-buildpack-v2.3.16nr2.tgz in a separate folder
+* Open nr-hwc-buildpack-v2.3.16nr4.tgz in a separate folder
 
 * Create Buildpack in PCF using 'cf create-buildpack'. Run the following command:
 
@@ -21,19 +21,28 @@ This buildpack supports application binding both directly using environment vari
 
 In order to bind to a pre-existing New Relic account which is already associated with one of the plans in New Relic tile, you can bind your application to New Relic dotNet agent in one of the following ways:
 
-* Bind to New Relic using the Agent Tile in the Marketplace
+* Bind your application to New Relic using the Agent Tile in the Marketplace
 	- click on New Relic tile in the Marketplace
 	- create an instance of the service for the plan that is associated with your target New Relic account
 	- use "services" section in your manifest.yml file, and specify the name of the service you just created in the marketplace
-	- Push the application
+	- "restage" the application
 
-* Bind to New Relic using AppMgr
+* Bind your application to New Relic using AppMgr
 	- Push your application to PCF
 	- In AppMgr click on your application
 	- goto "Service" tab of your application
 	- If you have already created a service instance from the tile, select "Bind Service". If this is the first time and you have not created any service instances, select "New Service"
 	- Follow the instructions to create a new service or bind to an existing service
 	- "restage" the application
+
+* Bind your application to New Relic using User-Provided-Service
+	- Create 1 user-provided-service with "newrelic" included in the service name 
+	- add the following credentials to the user-rpovided-service:
+		- "licenseKey" This is New Relic License Key - REQUIRED
+		- "appName"    If you want to change the app name in New Relic use this property - OPTIONAL
+	- push your application one of the following ways:
+		- by adding the user-provided-service to the manifest before pushing the app
+		- by adding the user-provided-service in AppMgr and restaging it after you add the service.
 
 
 ### Using Environment Variables or "newrelic.config" file
